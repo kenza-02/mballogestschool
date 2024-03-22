@@ -1,0 +1,132 @@
+<div class="col-md-12"> 
+    <div class="page-header">
+        <h3><i class="fa fa-users"></i> Gestion des eleves</h3>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="row"> 
+                <div class="col-md-3 sidenav">
+                    <a (click)="action('add')"><p  class="well btn-success" style="margin:10px; color:black;">Nouveau</p></a>
+                    <a (click)="action('liste')"><p  class="btn-success well " style="margin:10px;color:black;">Liste </p></a>
+                </div>
+                <div class="col-md-9">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <i class="fa fa-list-alt"></i> {{currentname}}
+                        </div>
+                        <div class="panel-body">
+                            <ng-container *ngIf="!afficheadd && !afficheupdate">
+                                <table width="100%" class="table table-striped table-bordered table-hover" id="fil">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Prenom</th>
+                                            <th>Genre</th>
+                                            <th>Date de naissance</th>
+                                            <th>Classe</th>
+                                            <th colspan="2">Action</th>
+                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of listeleve;let i=index;">
+                                            <td >
+                                               {{item?.nom}}
+                                            </td>
+                                            <td >
+                                                {{item?.prenom}}
+                                            </td>
+                                            <td >
+                                                {{item?.genre}}
+                                            </td>
+                                            <td >
+                                                {{item?.date_naiss}}
+                                            </td>
+                                            <td >
+                                                {{item?.classe}}
+                                            </td>
+                                            <td>
+                                                <a title="Modifier" (click)="action('update',i)">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a title="Supprimer" (click)="action('delete',i)">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                        
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                            <ng-container *ngIf="afficheadd || afficheupdate ">
+                                <form class="form-horizontal" [formGroup]="addeleveForm">
+                                    <fieldset>
+                                      <legend>Informations sur l'éléve</legend> 
+                                       <!-- <div > -->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="tx-facebook">Nom</label>
+                                                <input formControlName="nom"  class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="tx-facebook">Prenom</label>
+                                                <input formControlName="prenom"  class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="tx-facebook">Genre</label>
+                                                <select  formControlName="genre" class="form-control" required>
+                                                    <option disabled>---Choisir le genre---</option>
+                                                    <option value="masculin">Masculin</option>
+                                                    <option value="feminin">Feminin</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="tx-facebook">Date de naissance</label>
+                                                <input formControlName="date_naiss" type="date"  class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="tx-facebook">Classe</label>
+                                                <select  formControlName="classe" class="form-control" required>
+                                                    <option disabled>---Choisir la classe---</option>
+                                                    <option [value]="item" *ngFor="let item of listclass">{{item}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                       <!-- </div> -->
+                                       <div class="row form-group">        
+                                            <div class="col-sm-offset-2 col-sm-4">
+                                              <ng-container *ngIf="afficheadd">
+                                                <button style="width:100%;" type="submit"  class="btn btn-primary btn-large" [disabled]="addeleveForm.invalid"  (click)="add()">Enregistrer</button>
+                                              </ng-container>
+                                              <ng-container *ngIf="afficheupdate">
+                                                <button style="width:100%;" type="submit"  class="btn btn-primary btn-large" [disabled]="addeleveForm.invalid"  (click)="update()">Enregistrer</button>
+                                              </ng-container>
+                                            </div>
+                                            <div class="col-sm-offset-2 col-sm-4">
+                                              <button style="width:100%;" type="reset"  class="btn btn-danger btn-large" (click)="action('ok')">Annuler</button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
