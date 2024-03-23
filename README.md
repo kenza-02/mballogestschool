@@ -5,6 +5,7 @@ Nous avons utilisé [Angular CLI](https://github.com/angular/angular-cli) versio
 
 # Description
 C'est une application de gestion d'école, offrant la possibilité, de voir des classes et des éleves, en passant par le CRUD(Create Read Update and Delete)
+Assurez vous d'avoir de la connection internet car il y'a des dépendandes en ligne.
 
 # Installation
 Utiliser le commande npm install pour installer toutes les dependances requises
