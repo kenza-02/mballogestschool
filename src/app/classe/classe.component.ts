@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CrudService } from '../service/crud.service';
 
 @Component({
   selector: 'app-classe',
@@ -8,25 +9,40 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ClasseComponent implements OnInit {
 
-  listclass=['Terminal S1','Terminal S2', 'Premiere S1','Premiere S2'];
+  listclass:any=[];
   public addclasseForm:any= FormGroup;
   afficheadd:any;
   afficheupdate:any;
   currentname:string='Liste des classes';
   currentindex:any;
+  urlpost='classes';
 
-  constructor(private formBuilder: FormBuilder){}
+  constructor(private formBuilder: FormBuilder, private crud:CrudService){}
 
   ngOnInit(): void {
+    this.getlistclass();
     this.initaddclasseForm();
   }
   initaddclasseForm($name?:any) {
     this.addclasseForm = this.formBuilder.group({
-      libelle:[$name,Validators.required]
+      libelle:[$name?.libelle,Validators.required]
+    });
+  }
+  getlistclass(){
+    this.listclass=[];
+    this.crud.get(this.urlpost).subscribe((data)=>{
+      this.listclass=data;
     });
   }
   add(){
-    this.listclass.unshift(this.addclasseForm.value.libelle);
+    this.crud.post(this.urlpost,this.addclasseForm.value).subscribe({
+      next:(data:any)=>{
+        this.listclass.unshift(data);
+      },
+      error:(error)=>{
+          alert("Erreur lors de l'ajout");
+      }
+    });
     this.action('ok');
   }
   action($name:any,$val?:any){
@@ -45,14 +61,28 @@ export class ClasseComponent implements OnInit {
     }
     if($name=='delete'){
       this.currentindex=$val;
-      this.listclass.splice(this.currentindex, 1);
+      this.crud.delete(this.urlpost,this.listclass[this.currentindex].id).subscribe({
+        next:(data:any)=>{
+          this.listclass.splice(this.currentindex, 1);
+        },
+        error:(error)=>{
+          alert("Erreur au niveau de la suppression");
+        }
+      })
     }
     if($name=='ok'){
       this.initaddclasseForm();
     }
   }
   update(){
-    this.listclass[this.currentindex]=this.addclasseForm.value.libelle;
-    this.action('ok');
+    this.crud.put(this.urlpost,this.addclasseForm.value,this.listclass[this.currentindex].id).subscribe({
+      next:(data:any)=>{
+        this.listclass[this.currentindex]=data;
+        this.action('ok');
+      },
+      error:(error)=>{
+        alert("Erreur au niveau de la modification");
+      }
+    });
   }
 }
