@@ -31,7 +31,7 @@
                         
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody *ngIf="listeleve[0]">
                                         <tr *ngFor="let item of listeleve;let i=index;">
                                             <td >
                                                {{item?.nom}}
@@ -46,7 +46,7 @@
                                                 {{item?.date_naiss}}
                                             </td>
                                             <td >
-                                                {{item?.classe}}
+                                                {{item?.classe?.libelle}}
                                             </td>
                                             <td>
                                                 <a title="Modifier" (click)="action('update',i)">
@@ -101,7 +101,7 @@
                                                 <label class="tx-facebook">Classe</label>
                                                 <select  formControlName="classe" class="form-control" required>
                                                     <option disabled>---Choisir la classe---</option>
-                                                    <option [value]="item" *ngFor="let item of listclass">{{item}}</option>
+                                                    <option [value]="item?.id" *ngFor="let item of listclass">{{item?.libelle}}</option>
                                                 </select>
                                             </div>
                                         </div>

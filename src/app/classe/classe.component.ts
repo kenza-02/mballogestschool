@@ -38,12 +38,12 @@ export class ClasseComponent implements OnInit {
     this.crud.post(this.urlpost,this.addclasseForm.value).subscribe({
       next:(data:any)=>{
         this.listclass.unshift(data);
+        this.action('ok');
       },
       error:(error)=>{
           alert("Erreur lors de l'ajout");
       }
     });
-    this.action('ok');
   }
   action($name:any,$val?:any){
     this.afficheadd=undefined;
@@ -68,7 +68,7 @@ export class ClasseComponent implements OnInit {
         error:(error)=>{
           alert("Erreur au niveau de la suppression");
         }
-      })
+      });
     }
     if($name=='ok'){
       this.initaddclasseForm();

@@ -10,6 +10,11 @@ Assurez vous d'avoir de la connection internet car il y'a des dépendandes en li
 # Installation
 Utiliser la commande npm install pour installer toutes les dependances requises
 
-# Lancer le server
+# Lancer l'application
 Positionnez vous sur le dossier et executer `ng serve`. Naviguer sur `http://localhost:4200/`. 
+
+# Lancer le server 
+
+Positionnez vous sur le dossier, puis sur le dossier `src` et executer `node server.js`. 
+
 

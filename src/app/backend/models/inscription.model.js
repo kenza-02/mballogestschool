@@ -5,7 +5,7 @@ module.exports = mongoose => {
         prenom: { type: String, required: true },
         genre: { type: String, required: true },
         classe: { type: mongoose.Schema.Types.ObjectId, ref: 'classe' },
-        date_naiss:{ type: Date, required: true }
+        date_naiss:{ type: String, required: true }//Type date probleme car sa vient avec l'heure
       },
       { timestamps: true }
     );

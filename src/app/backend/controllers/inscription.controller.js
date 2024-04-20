@@ -19,34 +19,39 @@ exports.create = (req, res) => {
   });
 
   // Save inscription in the database
-  inscription
-    .save(inscription)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the inscription."
-      });
+  inscription.save()
+  .then(result => {
+    Inscription
+       .populate(inscription, { path: "classe" })
+       .then(data => {
+          res.json(data);
+       })
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while creating the inscription."
     });
+  });
+
 };
 
 // Retrieve all inscriptions from the database.
 exports.findAll = (req, res) => {
   const nom = req.body.nom;
   var condition = nom ? { nom: { $regex: new RegExp(nom), $options: "i" } } : {};
-
-  Inscription.find(condition)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving inscriptions."
-      });
+  Inscription
+   .find(condition)
+   .populate("classe") // key to populate
+   .then(data => {
+      res.json(data); 
+   })
+   .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving inscriptions."
     });
+  });
 };
 
 // Find a single inscription with an id
@@ -77,12 +82,9 @@ exports.update = (req, res) => {
   const id = req.params.id;
 
   Inscription.findByIdAndUpdate(id, req.body, { new: true })
+    .populate("classe")
     .then(data => {
-      if (!data) {
-        res.status(404).send({
-          message: `Cannot update inscription with id=${id}. Maybe inscription was not found!`
-        });
-      } else res.send(data);
+      res.json(data); 
     })
     .catch(err => {
       res.status(500).send({
